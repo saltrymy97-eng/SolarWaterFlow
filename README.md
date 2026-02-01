@@ -1,6 +1,3 @@
-# SolarWaterFlow
- an AI-driven system optimizing solar energy and water distribution to provide clean water at lower costs, especially in rural areas.
-
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
@@ -26,10 +23,10 @@ if st.button('Predict'):
     # Calculate solar energy and water demand
     solar_energy = predict_solar_energy(temperature, sunlight_hours)
     water_demand = predict_water_demand(temperature, population)
-    
-    # Display results
-    st.write(f"Estimated Solar Energy Production: {solar_energy:.2f} kWh")
-    st.write(f"Estimated Water Demand: {water_demand:.2f} liters/day")
+
+    # Display results with formatting
+    st.write(f"**Estimated Solar Energy Production:** {solar_energy:,.2f} kWh")
+    st.write(f"**Estimated Water Demand:** {water_demand:,.2f} liters/day")
 
     # Visualize results using Matplotlib
     fig, ax = plt.subplots(1, 2, figsize=(10, 5))
@@ -38,10 +35,14 @@ if st.button('Predict'):
     ax[0].bar(['Solar Energy'], [solar_energy], color='orange')
     ax[0].set_title('Solar Energy Production (kWh)')
     ax[0].set_ylabel('Energy (kWh)')
+    ax[0].set_ylim(0, max(50, solar_energy*1.2))  # dynamic y-axis
 
     # Plot Water Demand
     ax[1].bar(['Water Demand'], [water_demand], color='blue')
     ax[1].set_title('Water Demand (liters/day)')
     ax[1].set_ylabel('Water (liters)')
+    ax[1].set_ylim(0, max(5000, water_demand*1.2))  # dynamic y-axis
 
+    # Adjust layout for better display
+    plt.tight_layout()
     st.pyplot(fig)
